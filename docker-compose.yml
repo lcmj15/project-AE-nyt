@@ -1,5 +1,8 @@
 x-airflow-common: &airflow-common
-  image: apache/airflow:2.10.5   # confira a versão 2.10.x mais recente
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  image: taxi-airflow:1.0  # confira a versão 2.10.x mais recente
   environment:
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow_db:5432/airflow
@@ -71,7 +74,7 @@ services:
     <<: *airflow-common
     container_name: airflow_scheduler
     command: scheduler
-    mem_limit: 1500m
+    mem_limit: 4gb
     depends_on:
       airflow-init:
         condition: service_completed_successfully
