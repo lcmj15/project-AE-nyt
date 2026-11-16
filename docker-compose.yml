@@ -18,6 +18,23 @@ x-airflow-common: &airflow-common
       condition: service_healthy
 
 services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.jupyter
+    image: taxi-jupyter:1.0
+    container_name: taxi_jupyter
+    command: >
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      --ServerApp.token='' --ServerApp.password=''
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/work/notebooks
+      - ./jobs:/work/jobs
+      - ./data:/work/data
+    mem_limit: 3g
+    
   airflow_db:
     image: postgres:15
     container_name: airflow_db
