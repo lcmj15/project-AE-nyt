@@ -19,6 +19,7 @@ x-airflow-common: &airflow-common
 
 services:
   jupyter:
+    profiles: ["dev"]
     build:
       context: .
       dockerfile: docker/Dockerfile.jupyter
